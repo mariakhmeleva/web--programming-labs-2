@@ -8,12 +8,14 @@ def start():
 
 @app.route("/lab1")
 def lab1():
-    return """
+    return '''
 <!doctype html>
 <html>
+<link rel="stylesheet" href="'''+url_for('static', filename='static.css')+'''">
     <head>
         <title> Хмелёва Мария Сергеевна, лабораторная 1</title/>
     </head>
+
     <body>
         <header>
             НГТУ, ФБ, Лабораторная 1
@@ -28,17 +30,29 @@ def lab1():
         веб-приложений, сознательно предоставляющих лишь самые ба-
         зовые возможности.</p>
 
+        <a href="http://127.0.0.1:5000/menu"> Меню </a>
+
+         <h1>Реализованные роуты</h1>
+    <ul>
+    <li> <a href="http://127.0.0.1:5000/lab1/oak"> Дуб </a> </li>
+    <li> <a href="http://127.0.0.1:5000/lab1/student"> Студент </a> </li>
+    <li> <a href="http://127.0.0.1:5000/lab1/python"> Python </a> </li>
+    <li> <a href="http://127.0.0.1:5000/lab1/dota"> Dota 2 </a> </li>
+    </ul>
+
         <footer>
             &copy: Хмелёва Мария, ФБИ-23, 3 курс, 2024
         </footer>
     </body>
 </html>
-"""
+'''
+
 @app.route("/menu")
 def menu():
-    return """
+    return '''
 <!doctype html>
 <html>
+<link rel="stylesheet" href="'''+url_for('static', filename='static.css')+'''">
     <head>
         <title> НГТУ, ФБ, Лабораторные работы»</title/>
     </head>
@@ -47,14 +61,14 @@ def menu():
            НГТУ, ФБ, WEB-программирование, часть 2. Список лабораторных
         </header>
 
-        <a href="http://127.0.0.1:5000/lab1"> Лабораторная работа 1 </a>
+    <a href="http://127.0.0.1:5000/lab1"> Лабораторная работа 1 </a>
 
         <footer>
             &copy: Хмелёва Мария, ФБИ-23, 3 курс, 2024
         </footer>
     </body>
 </html>
-"""
+'''
 
 @app.route('/lab1/oak')
 def oak():
@@ -79,6 +93,71 @@ def oak():
         </p>
 
         <img src="''' + url_for('static', filename='oak.jpg') + '''">
+        
+    </body>
+</html>
+'''    
+
+@app.route('/lab1/student')
+def student():
+    return '''
+<!doctype html>
+<html>
+ <link rel="stylesheet" href="'''+url_for('static', filename='static.css')+'''">
+    <title> Студент </title>
+    
+    <body>
+        <h1>Хмелёва Мария Сергеевна</h1>
+        <img src="''' + url_for('static', filename='logo.jpg') + '''">
+        
+    </body>
+</html>
+'''   
+@app.route('/lab1/python')
+def py():
+    return '''
+<!doctype html>
+<html>
+ <link rel="stylesheet" href="'''+url_for('static', filename='static.css')+'''">
+  <title>Python</title>
+    <body>
+        <h1>Язык программирования Python</h1>
+
+        <p>
+        Python — это высокоуровневый язык программирования, который отличается
+        простотой и читаемостью синтаксиса. Он широко используется для разработки веб-приложений, 
+        анализа данных, автоматизации задач и создания искусственного интеллекта благодаря большому 
+        количеству библиотек и фреймворков. Python поддерживает множество парадигм программирования,
+        включая объектно-ориентированное, функциональное и процедурное программирование, что делает его универсальным 
+        инструментом для разработчиков.
+        </p>
+
+        <img src="''' + url_for('static', filename='py.jpg') + '''">
+        
+    </body>
+</html>
+'''    
+
+@app.route('/lab1/dota')
+def dota():
+    return '''
+<!doctype html>
+<html>
+ <link rel="stylesheet" href="'''+url_for('static', filename='static.css')+'''">
+ <title>Dota 2</title>
+    <body>
+        <h1>Dota 2</h1>
+
+        <p>
+       Dota 2 — это многопользовательская онлайн-игра в жанре MOBA (Multiplayer Online Battle Arena), 
+       разработанная компанией Valve. В игре две команды из пяти игроков сражаются друг с другом с целью разрушить 
+       трон противника, управляя уникальными героями, каждый из которых обладает своими способностями и характеристиками. 
+       Dota 2 известна своей сложной стратегией и глубокой механикой, что делает её одной из самых популярных киберспортивных 
+       дисциплин в мире.
+
+        </p>
+
+        <img src="''' + url_for('static', filename='dota2.jpg') + '''">
         
     </body>
 </html>
