@@ -166,4 +166,5 @@ def dota():
 
 @app.route('/lab2/example')
 def example():
-    return render_template('example.html')
+    name = 'Мария Хмелева'
+    return render_template('example.html',name=name)
