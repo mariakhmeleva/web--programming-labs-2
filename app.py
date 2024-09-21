@@ -169,7 +169,7 @@ def example():
     name = 'Мария Хмелева'
     number = '2'
     group = 'ФБИ-23'
-    course_number = 3
+    course_number = '3'
     return render_template('example.html',name=name,number=number,
                            group=group,course_number=course_number)
     
