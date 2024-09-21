@@ -3,19 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Хмелева Мария. Лабораторная работа 2</title>
+    <title>Хмелева Мария. Лабораторная работа {{number}}</title>
+    <link rel="stylesheet" href="{{ url_for ('static', filename = 'main.css') }}">
 </head>
 <body>
     <header>
-        WEB-прораммирование, часть 2. Лабораторная работа 2
+        WEB-прораммирование, часть 2. Лабораторная работа {{number}}
     </header>
 
     <main>
-        основной контент
+        5 + 2 = {{ 5 + 2 }}<br>
+        8452 / 793 = {{8452 / 793}}<br>
+        45**8 = {{45**8}}<br>
     </main>
 
     <footer>
-        &copy; Хмелева Мария. ФБИ-23, 3 курс, 2024
+        &copy; {{ name }}, {{group}}, {{course_number}} курс, 2024
     </footer>
 </body>
 </html>
