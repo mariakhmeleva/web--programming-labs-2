@@ -61,7 +61,9 @@ def menu():
            НГТУ, ФБ, WEB-программирование, часть 2. Список лабораторных
         </header>
 
-    <a href="http://127.0.0.1:5000/lab1"> Лабораторная работа 1 </a>
+    <a href="/lab1"> Лабораторная работа 1 </a> <br>
+
+    <a href="/lab2"> Лабораторная работа 2 </a>
 
         <footer>
             &copy: Хмелёва Мария, ФБИ-23, 3 курс, 2024
@@ -198,4 +200,10 @@ def example():
 @app.route('/lab2/')
 def lab2():
     return render_template('lab2.html')
+
+
+@app.route('/lab2/chto-to-neobichnoe/')
+def flowers():
+    return render_template('chto-to-neobichnoe.html')
+
     

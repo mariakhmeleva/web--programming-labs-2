@@ -27,14 +27,14 @@ body {
     margin-left: 30px;
   }
   
-  nav a {
-    color: #fff;
+  a {
+    color: #090111;
     text-decoration: none;
     font-weight: 500;
     transition: color 0.3s;
   }
   
-  nav a:hover {
+  a:hover {
     color: #FFCC00;
   }
   
@@ -86,13 +86,33 @@ body {
     padding: 10px;
     text-align: right;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-    position: absolute;
+    position: fixed;
     bottom: 0; /* Привязать к нижней части */
     width: 100%; /* Полная ширина */
   }
 
+ /* Стили для изображений */
+.img-fluid {
+  max-width: 80%;
+  height: auto;
+  display: block;
+  margin: 20 auto;
+}
 
-  
-  
+/* Стили для текста */
+.row {
+  margin-bottom: 30px;
+}
 
-  
+.row p {
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #0c0000;
+}
+
+@media (min-width: 768px) {
+  .row p {
+    font-size: 20px;
+  }
+}
