@@ -44,32 +44,6 @@ def lab():
 '''
 
 
-@lab1.route("/menu")
-def menu():
-    return '''
-<!doctype html>
-<html>
-<link rel="stylesheet" href="'''+url_for('static', filename='static.css')+'''">
-    <head>
-        <title> НГТУ, ФБ, Лабораторные работы»</title/>
-    </head>
-    <body>
-        <header>
-           НГТУ, ФБ, WEB-программирование, часть 2. Список лабораторных
-        </header>
-
-    <a href="/lab1"> Лабораторная работа 1 </a> <br>
-
-    <a href="/lab2"> Лабораторная работа 2 </a>
-
-        <footer>
-            &copy: Хмелёва Мария, ФБИ-23, 3 курс, 2024
-        </footer>
-    </body>
-</html>
-'''
-
-
 @lab1.route('/lab1/oak')
 def oak():
     return '''
