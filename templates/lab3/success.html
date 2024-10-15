@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Успешно</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            margin: 2rem auto;
+            width: max-content;
+            border: 1px solid #ccc;
+            padding: 1rem;
+            background-color: lightblue;
+        }
+        a {
+            display: inline-block;
+            margin: 1rem 0;
+            color: blue;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    {% extends "base.html" %}
+    
+    {% block lab %}Лабораторная работа 3{% endblock %}
+    
+    {% block main %}
+        <h1>Спасибо, Ваш заказ оплачен на сумму {{ price }} рублей.</h1>
+        <p>Ожидайте доставку.</p>
+        <a href="/lab3/order">Перейти к заказу</a>
+    {% endblock %}
+</body>
+</html>
