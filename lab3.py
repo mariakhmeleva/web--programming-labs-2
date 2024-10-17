@@ -50,7 +50,7 @@ def pay():
     if drink == 'cofee':
         price = 120
     elif drink == 'black-tea':
-        price - 80
+        price = 80
     else:
         price = 70
 
