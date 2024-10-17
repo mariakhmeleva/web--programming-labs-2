@@ -29,19 +29,19 @@ def example():
         {'name': 'Под маской, или Сила женщины', 'author': 'Луиза Мэй Олкотт', 'janr': 'роман','price': 373, 'str': 146},
     ]
 
-    return render_template('example.html',name=name,number=number,
+    return render_template('/lab2/example.html',name=name,number=number,
                            group=group,course_number=course_number, fruits=fruits,
                            books=books)
 
 
 @lab2.route('/lab2/')
 def lab():
-    return render_template('lab2.html')
+    return render_template('/lab2/lab2.html')
 
 
 @lab2.route('/lab2/chto-to-neobichnoe/')
 def flowers():
-    return render_template('chto-to-neobichnoe.html')
+    return render_template('/lab2/chto-to-neobichnoe.html')
 
     
 
