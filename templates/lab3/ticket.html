@@ -1,18 +1,30 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ваш билет</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .ticket { margin: 20px; border: 1px solid #000; padding: 10px; }
+    </style>
+</head>
+<body>
 
-{% block lab %}Ваш билет{% endblock %}
+<div class="ticket">
+    <h2>Ваш билет</h2>
+    <p>ФИО: {{ ticket.fio }}</p>
+    <p>Полка: {{ ticket.shelf }}</p>
+    <p>С бельём: {{ 'Да' if ticket.bedding else 'Нет' }}</p>
+    <p>С багажом: {{ 'Да' if ticket.luggage else 'Нет' }}</p>
+    <p>Возраст: {{ ticket.age }} лет</p>
+    <p>Пункт выезда: {{ ticket.departure }}</p>
+    <p>Пункт назначения: {{ ticket.destination }}</p>
+    <p>Дата поездки: {{ ticket.date }}</p>
+    <p>Страховка: {{ 'Да' if ticket.insurance else 'Нет' }}</p>
+    <p>Цена: {{ ticket.price }} руб</p>
+    <p>{{ 'Детский билет' if ticket.child_ticket else 'Взрослый билет' }}</p>
+</div>
 
-{% block main %}
-    <h1>Ваш билет</h1>
-    <p>ФИО: {{ fio }}</p>
-    <p>Полка: {{ shelf }}</p>
-    <p>С бельём: {{ 'Да' if bed else 'Нет' }}</p>
-    <p>С багажом: {{ 'Да' if luggage else 'Нет' }}</p>
-    <p>Возраст: {{ age }} лет</p>
-    <p>Пункт выезда: {{ departure }}</p>
-    <p>Пункт назначения: {{ destination }}</p>
-    <p>Дата поездки: {{ date }}</p>
-    <p>Нужна страховка: {{ 'Да' if insurance else 'Нет' }}</p>
-    <h2>{{ ticket_type }}</h2>
-    <h3>Стоимость: {{ price }} руб</h3>
-{% endblock %}
+</body>
+</html>
