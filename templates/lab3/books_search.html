@@ -16,14 +16,13 @@
 
     <h2>Доступные товары:</h2>
     <ul>
-        {% for books in bookss %}
+        {% for book in books %}
             <li>
-                {{ books.name }} - {{ books.price }} руб
-                {% if 'author' in books %} (Автор: {{ books.author }}) {% endif %}
-                {% if 'year' in books %} (Год: {{ books.year }}) {% endif %}
-                {% if 'pages' in books %} (Страницы: {{ books.pages }}) {% endif %}
-                {% if 'rating' in books %} (Рейтинг: {{ books.rating }}) {% endif %}
-                
+                {{ book.name }} - {{ book.price }} руб
+                {% if 'author' in book %} (Автор: {{ book.author }}) {% endif %}
+                {% if 'year' in book %} (Год: {{ book.year }}) {% endif %}
+                {% if 'pages' in book %} (Страницы: {{ book.pages }}) {% endif %}
+                {% if 'rating' in book %} (Рейтинг: {{ book.rating }}) {% endif %}
             </li>
         {% endfor %}
     </ul>
