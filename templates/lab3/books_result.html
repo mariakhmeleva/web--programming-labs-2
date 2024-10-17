@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block lab %}Результаты поиска товаров{% endblock %}
+
+{% block main %}
+    <h1>Результаты поиска</h1>
+    {% if books %}
+    <ul>
+        {% for book in books %}
+            <li>
+                {{ book.name }} - {{ book.price }} руб
+                {% if 'author' in book %} (Автор: {{ book.author }}) {% endif %}
+                {% if 'year' in book %} (Год: {{ book.year }}) {% endif %}
+                {% if 'pages' in book %} (Страницы: {{ book.pages }}) {% endif %}
+                {% if 'rating' in book %} (Рейтинг: {{ book.rating }}) {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Нет товаров в указанном диапазоне цен.</p>
+{% endif %}
+<a href="/lab3/books_search">Вернуться к поиску</a>
+{% endblock %}

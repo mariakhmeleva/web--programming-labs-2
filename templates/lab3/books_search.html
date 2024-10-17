@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block lab %}Поиск товаров{% endblock %}
+
+{% block main %}
+    <h1>Поиск товаров по цене</h1>
+    <form action="/lab3/books_search" method="post">
+        <label for="min_price">Минимальная цена:</label>
+        <input type="number" id="min_price" name="min_price" required><br><br>
+
+        <label for="max_price">Максимальная цена:</label>
+        <input type="number" id="max_price" name="max_price" required><br><br>
+
+        <input type="submit" value="Искать">
+    </form>
+
+    <h2>Доступные товары:</h2>
+    <ul>
+        {% for books in bookss %}
+            <li>
+                {{ books.name }} - {{ books.price }} руб
+                {% if 'author' in books %} (Автор: {{ books.author }}) {% endif %}
+                {% if 'year' in books %} (Год: {{ books.year }}) {% endif %}
+                {% if 'pages' in books %} (Страницы: {{ books.pages }}) {% endif %}
+                {% if 'rating' in books %} (Рейтинг: {{ books.rating }}) {% endif %}
+                
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
