@@ -45,6 +45,7 @@ def order():
 
 @lab3.route('/lab3/pay')
 def pay():
+    global price
     price = 0
     drink = request.args.get('drink')
     if drink == 'cofee':
@@ -56,14 +57,18 @@ def pay():
 
     if request.args.get('milk') == 'on':
         price += 30
+    else:
+        pass
     if request.args.get('sugar') == 'on':
         price += 10
-
+    else:
+        pass
     return render_template('lab3/pay.html', price=price)
 
 @lab3.route('/lab3/success')
 def success():
-    return render_template('lab3/success.html')
+    global price
+    return render_template('lab3/success.html', price=price)
 
 @lab3.route('/lab3/settings', methods=['GET', 'POST'])
 def settings():
