@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template,request, make_response, redirect
+from flask import Blueprint, render_template,request, make_response, redirect, session, url_for
 lab4 = Blueprint('lab4', __name__)
+
 
 @lab4.route('/lab4/')
 def lab():
@@ -114,5 +115,6 @@ def tree():
     elif operation == 'plant':
         tree_count += 1
     
-    return render_template('lab4/tree.html', tree_count = tree_count)
+
+    return redirect('/lab4/tree')
 
