@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block lab %}Арифметические операции{% endblock %}
+
+{% block main %}
+    <h1>Введите числа для возведения в степень</h1>
+    <form method="post" action="/lab4/pow">
+        <label for="x1">Число 1:</label>
+        <input type="text" name="x1" id="x1">
+        
+        <label for="x2">Число 2:</label>
+        <input type="text" name="x2" id="x2">
+        
+        <button type="submit">=</button>
+    </form>
+{% endblock %}

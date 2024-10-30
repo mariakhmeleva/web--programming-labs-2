@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block lab %}Результат{% endblock %}
+
+{% block main %}
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% else %}
+        <h1>Результат</h1>
+        <p>{{ x1 }} * {{ x2 }} = {{ result }}</p>
+    {% endif %}
+{% endblock %}
