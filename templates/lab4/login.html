@@ -3,21 +3,30 @@
 {% block lab %}Лабораторная работа 4{% endblock %}
 
 {% block main %}
-    <h1>Вход</h1>
-    <h2>Пожалуйста, авторизуйтесь</h2>
-    <form method = "post">
+    {% if authorized %}
+        <h1>Добро пожаловать, {{ name }}!</h1>
         <div>
-            <label for = "login">Пользователь:</label>
-            <input type="text" id="login" name="login">
+            <form action="/lab4/login" method="post">
+                <button>Выход</button>
+            </form>
         </div>
-        <div>
-            <label for = "password">Пароль:</label>
-            <input type="password" id="password" name="password">
-        </div>
-        <div>{{ error }}</div>
-        <div>
-            <button type="submit">Войти</button>
-            <button type="reset">Отмена</button>
-        </div>
-    </form>
+    {% else %}
+        <h1>Вход</h1>
+        <h2>Пожалуйста, авторизуйтесь</h2>
+        <form method="post">
+            <div>
+                <label for="login">Пользователь:</label>
+                <input type="text" id="login" name="login" value="{{ login }}">
+            </div>
+            <div>
+                <label for="password">Пароль:</label>
+                <input type="password" id="password" name="password">
+            </div>
+            <div style="color: red; font-style: italic;">{{ error }}</div>
+            <div>
+                <button type="submit">Войти</button>
+                <button type="reset">Отмена</button>
+            </div>
+        </form>
+    {% endif %}
 {% endblock %}

@@ -1,6 +1,5 @@
-from flask import Blueprint, render_template,request, make_response, redirect, session, url_for
+from flask import Blueprint, render_template,request, make_response, redirect, session
 lab4 = Blueprint('lab4', __name__)
-
 
 @lab4.route('/lab4/')
 def lab():
@@ -123,25 +122,35 @@ def tree():
     return redirect('/lab4/tree')
 
 users = [
-    {'login': 'alex', 'password': '123'},
-    {'login': 'bob', 'password': '555'},
-    {'login': 'ria', 'password': '2222'},
-    {'login': 'jack', 'password': '111'}
+    {'login': 'mia22', 'password': 'pass123', 'name': 'Мия Бойка ', 'gender': 'female'},
+    {'login': 'maria', 'password': 'pass456', 'name': 'Мария Хмелева', 'gender': 'female'}
 ]
 
 
-@lab4.route('/lab4/login', methods = ['GET','POST'])
+@lab4.route('/lab4/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
-        return render_template("lab4/login.html", authorized=False)
+        authorized = 'login' in session
+        name = session['name'] if authorized else ''
+        return render_template("lab4/login.html", authorized=authorized, name=name)
     
-    login = request.form.get('login')
-    password = request.form.get('password')
+    login = request.form.get('login', '').strip()
+    password = request.form.get('password', '').strip()
+
+    if not login:
+        error = 'Не введён логин'
+        return render_template('lab4/login.html', error=error, authorized=False, login=login)
+
+    if not password:
+        error = 'Не введён пароль'
+        return render_template('lab4/login.html', error=error, authorized=False, login=login)
 
     for user in users:
-        if login == user['login'] and password == user['password']:  
-            return render_template('lab4/login.html', error='Успешная авторизация', authorized=True)
+        if login == user['login'] and password == user['password']:
+            session['login'] = login
+            session['name'] = user['name']
+            return render_template('lab4/login.html', error='Успешная авторизация', authorized=True, login=login, name=user['name'])
     
     error = 'Неверные логин и/или пароль'
-    return render_template('/lab4/login.html', error=error, authorized=False)
+    return render_template('lab4/login.html', error=error, authorized=False, login=login)
 
