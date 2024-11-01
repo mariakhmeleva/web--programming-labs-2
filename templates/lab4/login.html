@@ -6,14 +6,15 @@
     {% if authorized %}
         <h1>Добро пожаловать, {{ name }}!</h1>
         <div>
-            <form action="/lab4/login" method="post">
-                <button>Выход</button>
+            <form action="/lab4/logout" method="post">
+                <button type="submit">Выход</button>
             </form>
         </div>
+        <div><a href="/lab4/users">Список пользователей</a></div>
     {% else %}
         <h1>Вход</h1>
         <h2>Пожалуйста, авторизуйтесь</h2>
-        <form method="post">
+        <form method="post" action="/lab4/login">
             <div>
                 <label for="login">Пользователь:</label>
                 <input type="text" id="login" name="login" value="{{ login }}">
@@ -27,6 +28,10 @@
                 <button type="submit">Войти</button>
                 <button type="reset">Отмена</button>
             </div>
+            <div>
+                <p>Нет аккаунта? <a href="/lab4/register">Зарегистрироваться</a></p>
+            </div>
+            
         </form>
     {% endif %}
 {% endblock %}

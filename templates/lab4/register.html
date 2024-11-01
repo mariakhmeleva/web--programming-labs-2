@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block main %}
+<h1>Регистрация</h1>
+<form method="post">
+    <label for="login">Логин:</label>
+    <input type="text" id="login" name="login"><br>
+    <label for="password">Пароль:</label>
+    <input type="password" id="password" name="password"><br>
+    <label for="name">Имя:</label>
+    <input type="text" id="name" name="name"><br>
+    <label for="gender">Пол:</label>
+    <input type="text" id="gender" name="gender"><br>
+    <button type="submit">Зарегистрироваться</button>
+    <div>{{ error }}</div>
+</form>
+{% endblock %}
