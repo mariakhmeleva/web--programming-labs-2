@@ -66,7 +66,7 @@ def oak():
         это забота о природном наследии и будущих поколениях.
         </p>
 
-        <img src="''' + url_for('static', filename='oak.jpg') + '''">
+        <img src="''' + url_for('static', filename='lab1/oak.jpg') + '''">
         
     </body>
 </html>
@@ -83,7 +83,7 @@ def student():
     
     <body>
         <h1>Хмелёва Мария Сергеевна</h1>
-        <img src="''' + url_for('static', filename='logo.jpg') + '''">
+        <img src="''' + url_for('static', filename='lab1/logo.jpg') + '''">
         
     </body>
 </html>
@@ -109,7 +109,7 @@ def py():
         инструментом для разработчиков.
         </p>
 
-        <img src="''' + url_for('static', filename='py.jpg') + '''">
+        <img src="''' + url_for('static', filename='lab1/py.jpg') + '''">
         
     </body>
 </html>
@@ -135,7 +135,7 @@ def dota():
 
         </p>
 
-        <img src="''' + url_for('static', filename='dota2.jpg') + '''">
+        <img src="''' + url_for('static', filename='lab1/dota2.jpg') + '''">
         
     </body>
 </html>
