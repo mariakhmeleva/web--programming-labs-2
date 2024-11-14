@@ -37,7 +37,16 @@
     }
 </style>
 <h1>База знаний</h1>
-<div>Пользователь: <strong>{{ username }}</strong></div>
+<div>
+    Пользователь: 
+    <strong>
+        {% if login %}
+            {{ login }}
+        {% else %}
+            Анонимус
+        {% endif %}
+    </strong>
+</div>
 <ol class="link-list">
     <div class="block"><a href="/lab5/login">Вход</a></div>
     <div class="block"><a href="/lab5/register">Регистрация</a></div>
