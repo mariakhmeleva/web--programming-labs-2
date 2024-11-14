@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 5{% endblock %}
+
+{% block main %}
+<style>
+    /* Основной стиль для блоков ссылок */
+    .link-list {
+        list-style-type: none;
+        padding: 0;
+    }
+    
+    .block {
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        background-color: #f4f4f9;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    
+    .block:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        transform: scale(1.02);
+    }
+
+    /* Стиль для ссылок внутри блоков */
+    .block a {
+        text-decoration: none;
+        color: #333;
+        font-weight: bold;
+    }
+
+    .block a:hover {
+        color: #0073e6;
+    }
+</style>
+<h1>База знаний</h1>
+<div>Пользователь: <strong>{{ username }}</strong></div>
+<ol class="link-list">
+    <div class="block"><a href="/lab5/login">Вход</a></div>
+    <div class="block"><a href="/lab5/register">Регистрация</a></div>
+    <div class="block"><a href="/lab5/list">Список статей</a></div>
+    <div class="block"><a href="/lab5/create">Создать статью</a></div>
+</ol>
+{% endblock %}
+
+
