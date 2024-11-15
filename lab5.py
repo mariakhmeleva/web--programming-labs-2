@@ -66,7 +66,7 @@ def register():
     if current_app.config['DB_TYPE'] == 'postgres':
         cur.execute("INSERT INTO users (login, password) VALUES (%s, %s);", (login, password_hash))
     else:
-        cur.execute("INSERT INTO users (login, password) VALUES (?, ?);", (login, password_hash))
+        cur.execute(f"INSERT INTO users (login, password) VALUES (?, ?);", (login, password_hash))
     db_close(conn, cur)
 
     return render_template('lab5/succes.html', login=login) 
@@ -97,7 +97,7 @@ def login():
     if current_app.config['DB_TYPE'] == 'postgres':
         cur.execute("SELECT * FROM users WHERE login=%s;", (login, ))
     else:
-        cur.execute("SELECT * FROM users WHERE login=?;", (login, ))
+        cur.execute(f"SELECT * FROM users WHERE login=?;", (login, ))
     user = cur.fetchone()
 
     if not user:
@@ -139,7 +139,7 @@ def create():
     if current_app.config['DB_TYPE'] == 'postgres':
         cur.execute("SELECT * FROM users WHERE login=%s;", (login, ))
     else:
-        cur.execute("SELECT * FROM users WHERE login=?;", (login, ))
+        cur.execute(f"SELECT * FROM users WHERE login=?;", (login, ))
 
     user_id = cur.fetchone()["id"]
 
@@ -147,7 +147,7 @@ def create():
         cur.execute("INSERT INTO articles (user_id, title, article_text, is_public) VALUES (%s, %s, %s, %s);", 
                     (user_id, title, article_text, is_public))
     else:
-        cur.execute("INSERT INTO articles (login_id, title, article_text, is_public) VALUES (?, ?, ?, ?);", 
+        cur.execute(f"INSERT INTO articles (login_id, title, article_text, is_public) VALUES (?, ?, ?, ?);", 
                     (user_id, title, article_text, is_public))
     
     db_close(conn, cur)
@@ -165,14 +165,14 @@ def list():
     if current_app.config['DB_TYPE'] == 'postgres':
         cur.execute("SELECT id FROM users WHERE login=%s;", (login,))
     else:
-        cur.execute("SELECT id FROM users WHERE login=?;", (login,))
+        cur.execute(f"SELECT id FROM users WHERE login=?;", (login,))
     
     user_id = cur.fetchone()["id"]
 
     if current_app.config['DB_TYPE'] == 'postgres':
         cur.execute("SELECT * FROM articles WHERE user_id=%s ORDER BY is_favorite DESC;", (user_id,))
     else:
-        cur.execute("SELECT * FROM articles WHERE login_id=? ORDER BY is_favorite DESC;", (user_id,))
+        cur.execute(f"SELECT * FROM articles WHERE login_id=? ORDER BY is_favorite DESC;", (user_id,))
     
     articles = cur.fetchall()
 
@@ -202,7 +202,7 @@ def edit_article(article_id):
     if current_app.config['DB_TYPE'] == 'postgres':
         cur.execute("SELECT * FROM articles WHERE id=%s;", (article_id,))
     else:
-        cur.execute("SELECT * FROM articles WHERE id=?;", (article_id,))
+        cur.execute(f"SELECT * FROM articles WHERE id=?;", (article_id,))
     article = cur.fetchone()
     
     if not article:
@@ -212,7 +212,7 @@ def edit_article(article_id):
     if current_app.config['DB_TYPE'] == 'postgres':
         cur.execute("SELECT * FROM users WHERE login=%s;", (login,))
     else:
-        cur.execute("SELECT * FROM users WHERE login=?;", (login,))
+        cur.execute(f"SELECT * FROM users WHERE login=?;", (login,))
 
     if request.method == 'POST':
         title = request.form.get('title')
@@ -248,7 +248,7 @@ def delete_article(article_id):
     if current_app.config['DB_TYPE'] == 'postgres':
         cur.execute("SELECT * FROM articles WHERE id=%s;", (article_id,))
     else:
-        cur.execute("SELECT * FROM articles WHERE id=?;", (article_id,))
+        cur.execute(f"SELECT * FROM articles WHERE id=?;", (article_id,))
     article = cur.fetchone()
 
     if not article:
@@ -289,7 +289,7 @@ def favorite_article(article_id):
     if current_app.config['DB_TYPE'] == 'postgres':
         cur.execute("SELECT id FROM users WHERE login=%s;", (login,))
     else:
-        cur.execute("SELECT id FROM users WHERE login=?;", (login,))
+        cur.execute(f"SELECT id FROM users WHERE login=?;", (login,))
     user_id = cur.fetchone()["id"]
 
     if current_app.config['DB_TYPE'] == 'postgres':
@@ -307,7 +307,7 @@ def favorite_article(article_id):
     if current_app.config['DB_TYPE'] == 'postgres':
         cur.execute("UPDATE articles SET is_favorite=%s WHERE id=%s;", (new_favorite_status, article_id))
     else:
-        cur.execute("UPDATE articles SET is_favorite=? WHERE id=?;", (new_favorite_status, article_id))
+        cur.execute(f"UPDATE articles SET is_favorite=? WHERE id=?;", (new_favorite_status, article_id))
 
     db_close(conn, cur)
     return redirect('/lab5/list')
@@ -324,13 +324,13 @@ def favorite_articles():
     if current_app.config['DB_TYPE'] == 'postgres':
         cur.execute("SELECT id FROM users WHERE login=%s;", (login,))
     else:
-        cur.execute("SELECT id FROM users WHERE login=?;", (login,))
+        cur.execute(f"SELECT id FROM users WHERE login=?;", (login,))
     user_id = cur.fetchone()["id"]
 
     if current_app.config['DB_TYPE'] == 'postgres':
         cur.execute("SELECT * FROM articles WHERE user_id=%s AND is_favorite=TRUE;", (user_id,))
     else:
-        cur.execute("SELECT * FROM articles WHERE login_id=? AND is_favorite=1;", (user_id,))
+        cur.execute(f"SELECT * FROM articles WHERE login_id=? AND is_favorite=1;", (user_id,))
     
     favorite_articles = cur.fetchall()
 
@@ -350,7 +350,7 @@ def public_articles():
     if current_app.config['DB_TYPE'] == 'postgres':
         cur.execute("SELECT articles.*, users.login AS author FROM articles JOIN users ON articles.user_id = users.id WHERE is_public=TRUE;")
     else:
-        cur.execute("SELECT articles.*, users.login AS author FROM articles JOIN users ON articles.login_id = users.id WHERE is_public=1;")
+        cur.execute(f"SELECT articles.*, users.login AS author FROM articles JOIN users ON articles.login_id = users.id WHERE is_public=1;")
     
     public_articles = cur.fetchall()
 
