@@ -95,9 +95,9 @@ def login():
     conn, cur = db_connect()
 
     if current_app.config['DB_TYPE'] == 'postgres':
-        cur.execute("SELECT * FROM users WHERE login=%s;", (login, ))
+        cur.execute("SELECT * FROM users WHERE login=%s;", (login,))
     else:
-        cur.execute(f"SELECT * FROM users WHERE login=?;", (login, ))
+        cur.execute(f"SELECT * FROM users WHERE login=?;", (login,))
     user = cur.fetchone()
 
     if not user:
