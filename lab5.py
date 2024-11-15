@@ -6,9 +6,9 @@ import sqlite3
 from os import path
 from dotenv import load_dotenv
 
-load_dotenv()
-
 lab5 = Blueprint('lab5', __name__)
+
+load_dotenv()
 
 @lab5.route('/lab5/')
 def lab():
@@ -56,7 +56,7 @@ def register():
         cur.execute(f"SELECT login FROM users WHERE login=%s;",(login, ))
 
     else:
-        cur.execute(f"SELECT login FROM users WHERE login=%?;",(login, ))
+        cur.execute(f"SELECT login FROM users WHERE login=?;",(login, ))
    
 
     password_hash = generate_password_hash(password)
@@ -64,7 +64,7 @@ def register():
         cur.execute(f"INSERT INTO users (login,password) VALUES (%s,%s);"(login, password_hash))
 
     else:
-        cur.execute(f"INSERT INTO users (login,password) VALUES (?s,?s);"(login, password_hash)) 
+        cur.execute(f"INSERT INTO users (login,password) VALUES (?,?);"(login, password_hash)) 
     conn.commit()
 
     db_close(conn,cur)
@@ -141,19 +141,12 @@ def list():
 
     conn, cur = db_connect()
 
-    if current_app.config['DB_TYPE'] == 'postgres':
-        cur.execute("SELECT id FROM users WHERE login=%s;", (login,))
-    else:
-        cur.execute("SELECT id FROM users WHERE login=?;", (login,))
-
+    cur.execute("SELECT id FROM users WHERE login = %s;", (login,))
     user_id = cur.fetchone()["id"]
 
-    if current_app.config['DB_TYPE'] == 'postgres':
-        cur.execute("SELECT * FROM articles WHERE user_id=%s;", (user_id,))
-    else:
-        cur.execute("SELECT * FROM articles WHERE user_id=?;", (user_id,))
-
+    cur.execute("SELECT * FROM articles WHERE user_id = %s;", (user_id,))
     articles = cur.fetchall()
-    db_close(conn, cur)
+    db_close(conn,cur)
     return render_template('lab5/articles.html', articles=articles)
+
 
