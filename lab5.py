@@ -324,7 +324,7 @@ def favorite_articles():
     if current_app.config['DB_TYPE'] == 'postgres':
         cur.execute("SELECT id FROM users WHERE login=%s;", (login,))
     else:
-        cur.execute("SELECT id FROM users WHERE login=?;", (login,))
+        cur.execute("SELECT id FROM users WHERE login=?", (login,))
     user_id = cur.fetchone()["id"]
 
     if current_app.config['DB_TYPE'] == 'postgres':
@@ -358,6 +358,6 @@ def public_articles():
 
     if not public_articles:
         no_public_articles_message = 'Нет публичных статей.'
-        return render_template('lab5/public_article.html', no_public_articles_message=no_public_articles_message)
+        return render_template('lab5/public_articles.html', no_public_articles_message=no_public_articles_message)
 
     return render_template('lab5/public_articles.html', articles=public_articles)
