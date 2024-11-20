@@ -23,7 +23,8 @@
             text-align: {{ request.cookies.get('text_align') }};
             {% endif %}
         }
-    </style>    
+    </style>
+    {% block script %} {% endblock %} 
 </head>
 <body>
     <header>
