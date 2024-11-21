@@ -139,6 +139,61 @@ document.addEventListener('DOMContentLoaded', function(){
 {% endblock %} 
 
 {% block main %}
+<style>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+        margin-top: 20px;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 20px auto;
+        width: 80%;
+        max-width: 600px;
+    }
+
+    li {
+        background-color: #fff;
+        margin: 10px 0;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    button {
+        padding: 8px 12px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #ddd;
+    }
+
+    #total-rent-cost {
+        text-align: center;
+        font-size: 18px;
+        color: #555;
+        margin-top: 20px;
+    }
+</style>
+</style>
     <h1>Список кабинетов</h1>
     <ul id="office-list"></ul>
     <p id="total-rent-cost">Общая стоимость аренды: 0 руб.</p>
