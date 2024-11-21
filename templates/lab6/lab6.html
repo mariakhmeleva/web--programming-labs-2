@@ -3,6 +3,7 @@
 {% block lab %}Лабораторная работа 6{% endblock %}
 
 {% block script %}
+
 <script>
 function getOfficeList(){
     const url = '/lab6/json-rpc-api/'
@@ -22,10 +23,12 @@ function getOfficeList(){
     .then(function(data){
         const office_list = data.result;
         const ul = document.getElementById('office-list');
+        ul.innerHTML='';
+        let totalRentCost = 0;
         for(let i = 0;i< office_list.length;i++){
             const office = office_list[i];
             const li = document.createElement('li');
-            li.innerText = `${office.number}: ${office.tenant || 'свободен'}`;
+            li.innerText = `${office.number}: ${office.tenant || 'свободен'}, стоимость аренды: ${office.price} руб.`;
 
             const bookingButton = document.createElement('button');
             bookingButton.innerText = 'зарезервировать';
@@ -38,7 +41,13 @@ function getOfficeList(){
             li.appendChild(cancellationButton);
 
             ul.appendChild(li);
+
+            if (office.tenant) {
+                totalRentCost += office.price;
+            }
         }
+        const totalRentCostElement = document.getElementById('total-rent-cost');
+        totalRentCostElement.innerText = `Общая стоимость  аренды: ${totalRentCost} руб.`;
     });
 }
 
@@ -132,5 +141,6 @@ document.addEventListener('DOMContentLoaded', function(){
 {% block main %}
     <h1>Список кабинетов</h1>
     <ul id="office-list"></ul>
+    <p id="total-rent-cost">Общая стоимость аренды: 0 руб.</p>
 {% endblock %}
 
