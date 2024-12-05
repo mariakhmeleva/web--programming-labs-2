@@ -61,9 +61,18 @@ def get_film(id):
 
 @lab7.route('/lab7/rest-api/films/<int:id>',methods=['DELETE'])
 def del_film(id):
-    if id in films:
+    if id<= (len(films)-1):
         del films[id]
         return '',204
+    else:
+        abort(404, description="Film not found")
+
+@lab7.route('/lab7/rest-api/films/<int:id>',methods=['PUT'])
+def put_film(id):
+    if id<= (len(films)-1):
+        film=request.get_json()
+        films[id]=film
+        return films[id]
     else:
         abort(404, description="Film not found")
 
