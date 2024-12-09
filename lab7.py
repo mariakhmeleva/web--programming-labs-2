@@ -71,6 +71,8 @@ def del_film(id):
 def put_film(id):
     if id<= (len(films)-1):
         film=request.get_json()
+        if film['description']=='':
+            return {'description':'Заполните описание'},400
         films[id]=film
         return films[id]
     else:

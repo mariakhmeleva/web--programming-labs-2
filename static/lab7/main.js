@@ -48,14 +48,14 @@ function fillFilmList(){
 }
 
 function deleteFilm(id,title){
-if(! confirm(`Вы точно хотите удалить фильм "${title}"?`))
-    return;
+    if(! confirm(`Вы точно хотите удалить фильм "${title}"?`))
+        return;
 
-fetch(`/lab7/rest-api/films/${id}`,{method:'DELETE'})
-.then(function () {
-    fillFilmList();
-});
-}
+    fetch(`/lab7/rest-api/films/${id}`,{method:'DELETE'})
+    .then(function () {
+        fillFilmList();
+    });
+    }
 
 function showModal(){
     document.querySelector('div.modal').style.display = 'block';
@@ -87,15 +87,24 @@ function sendFilm(){
     }
     const url = `/lab7/rest-api/films/${id}`;
     const method = id ===''? 'POST':'PUT';
-
+    
+    document.getElementById('description-error').innerText = '';
     fetch(url,{
         method:method,
         headers:{"Content-Type":"application/json"},
         body:JSON.stringify(film)
     })
-    .then(function(){
-        fillFilmList();
-        hideModal();
+    .then(function(resp){
+        if(resp.ok){
+            fillFilmList();
+            hideModal();
+            return{};
+        }
+        return resp.json();
+    })
+    .then(function(errors){
+        if(errors.description)
+            document.getElementById('description-error').innerText = errors.description;
     });
 }
 
