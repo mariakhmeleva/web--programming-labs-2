@@ -1,34 +1,36 @@
-from flask import Blueprint, render_template, request, abort, jsonify
+from flask import Blueprint, render_template, request, abort, jsonify, current_app
+from os import path
+import sqlite3
 from datetime import datetime
-
+from psycopg2.extras import RealDictCursor
+from werkzeug.security import check_password_hash, generate_password_hash
+import sqlite3
+from os import path
+from dotenv import load_dotenv
+import psycopg2
 lab7 = Blueprint('lab7', __name__)
 
-films = [
-    {
-        "title": "Inception",
-        "title_ru": "Начало",
-        "year": 2010,
-        "description": "Кобб – талантливый вор, лучший из лучших в опасном искусстве извлечения: он крадет ценные секреты из глубин подсознания во время сна, когда человеческий разум наиболее уязвим. Редкие способности Кобба сделали его ценным игроком в привычном к предательству мире промышленного шпионажа, но они же превратили его в извечного беглеца и лишили всего, что он когда-либо любил."
-    },
-    {
-        "title": "Green Book",
-        "title_ru": "Зеленая книга",
-        "year": 2018,
-        "description": "1960-е годы. После закрытия нью-йоркского ночного клуба на ремонт вышибала Тони по прозвищу Болтун ищет подработку на пару месяцев. Как раз в это время Дон Ширли — утонченный светский лев, богатый и талантливый чернокожий музыкант, исполняющий классическую музыку — собирается в турне по южным штатам, где ещё сильны расистские убеждения и царит сегрегация. Он нанимает Тони в качестве водителя, телохранителя и человека, способного решать текущие проблемы. У этих двоих так мало общего, и эта поездка навсегда изменит жизнь обоих."
-    },
-    {
-        "title": "Pulp Fiction",
-        "title_ru": "Криминальное чтиво",
-        "year": 1994,
-        "description": "Двое бандитов Винсент Вега и Джулс Винфилд ведут философские беседы в перерывах между разборками и решением проблем с должниками криминального босса Марселласа Уоллеса. В первой истории Винсент проводит незабываемый вечер с женой Марселласа Мией. Во второй Марселлас покупает боксёра Бутча Кулиджа, чтобы тот сдал бой. В третьей истории Винсент и Джулс по нелепой случайности попадают в неприятности."
-    },
-    {
-        "title": "Schindler's List",
-        "title_ru": "Список Шиндлера",
-        "year": 1993,
-        "description": "Фильм рассказывает реальную историю загадочного Оскара Шиндлера, члена нацистской партии, преуспевающего фабриканта, спасшего во время Второй мировой войны почти 1200 евреев."
-    }
-]
+def db_connect():
+    if current_app.config['DB_TYPE'] == 'postgres':
+        conn = psycopg2.connect(
+            host='127.0.0.1',
+            database='maria_khmeleva_knowledge_base_db',
+            user='maria_khmeleva_knowledge_base_db',
+            password='123'
+        )
+        cur = conn.cursor(cursor_factory=RealDictCursor)
+    else:
+        dir_path = path.dirname(path.realpath(__file__))
+        db_path = path.join(dir_path, "database.db")
+        conn = sqlite3.connect(db_path)
+        conn.row_factory = sqlite3.Row
+        cur = conn.cursor()
+    return conn, cur
+
+def db_close(conn, cur):
+    conn.commit()
+    cur.close()
+    conn.close()
 
 @lab7.route('/lab7/')
 def main():
@@ -36,34 +38,51 @@ def main():
 
 @lab7.route('/lab7/rest-api/films/', methods=['GET'])
 def get_films():
-    return jsonify(films)
+    conn, cur = db_connect()
+    cur.execute('SELECT * FROM films')
+    films = cur.fetchall()
+    db_close(conn, cur)
+    return jsonify([dict(film) for film in films])
 
 @lab7.route('/lab7/rest-api/films/<int:id>', methods=['GET'])
 def get_film(id):
-    if id < len(films):
-        return jsonify(films[id])
+    conn, cur = db_connect()
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute('SELECT * FROM films WHERE id = %s', (id,))
     else:
+        cur.execute('SELECT * FROM films WHERE id = ?', (id,))
+    film = cur.fetchone()
+    db_close(conn, cur)
+    if film is None:
         abort(404, description="Film not found")
+    return jsonify(dict(film))
 
 @lab7.route('/lab7/rest-api/films/<int:id>', methods=['DELETE'])
 def del_film(id):
-    if id < len(films):
-        del films[id]
-        return '', 204
+    conn, cur = db_connect()
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute('DELETE FROM films WHERE id = %s', (id,))
     else:
-        abort(404, description="Film not found")
+        cur.execute('DELETE FROM films WHERE id = ?', (id,))
+    db_close(conn, cur)
+    return '', 204
 
 @lab7.route('/lab7/rest-api/films/<int:id>', methods=['PUT'])
 def put_film(id):
-    if id < len(films):
-        film = request.get_json()
-        errors = validate_film(film)
-        if errors:
-            return jsonify(errors), 400
-        films[id] = film
-        return jsonify(films[id])
+    film = request.get_json()
+    errors = validate_film(film)
+    if errors:
+        return jsonify(errors), 400
+
+    conn, cur = db_connect()
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute('UPDATE films SET title = %s, title_ru = %s, year = %s, description = %s WHERE id = %s',
+                    (film['title'], film['title_ru'], film['year'], film['description'], id))
     else:
-        abort(404, description="Film not found")
+            cur.execute('UPDATE films SET title = ?, title_ru = ?, year = ?, description = ? WHERE id = ?',
+                    (film['title'], film['title_ru'], film['year'], film['description'], id))
+    db_close(conn, cur)
+    return jsonify(film)
 
 @lab7.route('/lab7/rest-api/films/', methods=['POST'])
 def add_film():
@@ -71,8 +90,17 @@ def add_film():
     errors = validate_film(new_film)
     if errors:
         return jsonify(errors), 400
-    films.append(new_film)
-    return jsonify({'id': len(films) - 1}), 201
+
+    conn, cur = db_connect()
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute('INSERT INTO films (title, title_ru, year, description) VALUES (%s, %s, %s, %s)',
+                    (new_film['title'], new_film['title_ru'], new_film['year'], new_film['description']))
+    else:
+        cur.execute('INSERT INTO films (title, title_ru, year, description) VALUES (?, ?, ?, ?)',
+                (new_film['title'], new_film['title_ru'], new_film['year'], new_film['description']))
+    new_film['id'] = cur.lastrowid
+    db_close(conn, cur)
+    return jsonify(new_film), 201
 
 def validate_film(film):
     errors = {}
@@ -84,6 +112,7 @@ def validate_film(film):
     if not film.get('title_ru'):
         errors['title_ru'] = 'Русское название должно быть заполнено'
 
+      # Преобразуем значение в число
     if not (1895 <= int(film.get('year', 0))):
         errors['year'] = f'Год должен быть от 1895 до {current_year}'
 
