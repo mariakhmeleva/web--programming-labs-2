@@ -104,27 +104,30 @@
         <input type="hidden" id="id">
         <label>
             Название фильма на русском:
-            <input type="Text" id="title">
+            <input type="Text" id="title_ru">
+            <div id="title_ru-error" class="error-message"></div>
         </label><br>
-
+    
         <label>
             Название фильма на оригинальном языке:
             <i>если фильм русский оставьте пустым</i>
-            <input type="Text" id="title_ru">
+            <input type="Text" id="title">
+            <div id="title-error" class="error-message"></div>
         </label><br>
-
+    
         <label>
             Год выпуска:
             <input type="number" id="year">
+            <div id="year-error" class="error-message"></div>
         </label><br>
-
+    
         <label>
             Описание:
             <textarea id="description"></textarea>
             <div id="description-error" class="error-message"></div>
         </label><br>
-
+    
         <button onclick="sendFilm()">ОК</button>
         <button onclick="cancel()">Отмена</button>
-    </div>
+    </div>  
 {% endblock %}

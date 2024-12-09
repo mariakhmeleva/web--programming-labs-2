@@ -75,7 +75,7 @@ function addFilm() {
     showModal();
 
 }
-function sendFilm(){
+function sendFilm() {
     const id = document.getElementById('id').value;
     let title = document.getElementById('title').value;
     let title_ru = document.getElementById('title_ru').value;
@@ -97,7 +97,12 @@ function sendFilm(){
     const url = `/lab7/rest-api/films/${id}`;
     const method = id === '' ? 'POST' : 'PUT';
 
+    // Очистка ошибок перед отправкой запроса
+    document.getElementById('title-error').innerText = '';
+    document.getElementById('title_ru-error').innerText = '';
+    document.getElementById('year-error').innerText = '';
     document.getElementById('description-error').innerText = '';
+
     fetch(url, {
         method: method,
         headers: {"Content-Type": "application/json"},
@@ -112,11 +117,20 @@ function sendFilm(){
         return resp.json();
     })
     .then(function(errors) {
+        // Отображение ошибок, если они есть
+        if (errors.title)
+            document.getElementById('title-error').innerText = errors.title;
+        if (errors.title_ru)
+            document.getElementById('title_ru-error').innerText = errors.title_ru;
+        if (errors.year)
+            document.getElementById('year-error').innerText = errors.year;
         if (errors.description)
             document.getElementById('description-error').innerText = errors.description;
+    })
+    .catch(function(error) {
+        console.error('Error:', error);
     });
 }
-
 
 function editFilm(id){
     fetch(`/lab7/rest-api/films/${id}`)
