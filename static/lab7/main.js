@@ -6,17 +6,18 @@ function fillFilmList(){
     .then(function(films){
         let tbody = document.getElementById('film-list');
         tbody.innerHTML = '';
-        for(let i=0;i<films.length;i++) {
+        for(let i=0; i<films.length; i++) {
             let tr = document.createElement('tr');
 
-            let tdTitle = document.createElement('td');
+            
             let tdTitleRus = document.createElement('td');
+            let tdTitle = document.createElement('td');
+            
             let tdYear = document.createElement('td');
             let tdActions = document.createElement('td');
 
-
-            tdTitle.innerHTML = films[i].title == films[i].title_ru ? '':films[i].title;
             tdTitleRus.innerHTML = films[i].title_ru;
+            tdTitle.innerHTML = `<span class="italic">(${films[i].title})</span>`;
             tdYear.innerHTML = films[i].year;
 
             let editButton = document.createElement('button');
@@ -34,17 +35,14 @@ function fillFilmList(){
             tdActions.append(editButton);
             tdActions.append(delButton);
 
-
-            tr.append(tdTitle);
             tr.append(tdTitleRus);
+            tr.append(tdTitle);
             tr.append(tdYear);
             tr.append(tdActions);
 
-            tbody.append(tr)
-
-
+            tbody.append(tr);
         }
-    })
+    });
 }
 
 function deleteFilm(id,title){
@@ -79,34 +77,46 @@ function addFilm() {
 }
 function sendFilm(){
     const id = document.getElementById('id').value;
-    const film= {
-        title: document.getElementById('title').value,
-        title_ru:document.getElementById('title_ru').value,
-        year:document.getElementById('year').value,  
-        description:document.getElementById('description').value
+    let title = document.getElementById('title').value;
+    let title_ru = document.getElementById('title_ru').value;
+    const year = document.getElementById('year').value;
+    const description = document.getElementById('description').value;
+
+    // Если оригинальное название пустое, используем русское название
+    if (!title && title_ru) {
+        title = title_ru;
     }
+
+    const film = {
+        title: title,
+        title_ru: title_ru,
+        year: year,
+        description: description
+    };
+
     const url = `/lab7/rest-api/films/${id}`;
-    const method = id ===''? 'POST':'PUT';
-    
+    const method = id === '' ? 'POST' : 'PUT';
+
     document.getElementById('description-error').innerText = '';
-    fetch(url,{
-        method:method,
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify(film)
+    fetch(url, {
+        method: method,
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(film)
     })
-    .then(function(resp){
-        if(resp.ok){
+    .then(function(resp) {
+        if (resp.ok) {
             fillFilmList();
             hideModal();
-            return{};
+            return {};
         }
         return resp.json();
     })
-    .then(function(errors){
-        if(errors.description)
+    .then(function(errors) {
+        if (errors.description)
             document.getElementById('description-error').innerText = errors.description;
     });
 }
+
 
 function editFilm(id){
     fetch(`/lab7/rest-api/films/${id}`)
