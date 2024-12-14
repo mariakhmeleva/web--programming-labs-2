@@ -4,24 +4,19 @@
 
 {% block main %}
     <h1>Создание статьи</h1>
-
-    <form method="post">
+    <form action="/lab8/articles/create" method="post">
         <div>
-            <lsbel>
-                Название статьи:
-                <input type="text" maxlength="50" name="title">
-            </lsbel>
+            <label>
+                Заголовок: <input type="text" name="title" required>
+            </label>
         </div>
 
         <div>
-            <textarea name="article_text"></textarea>
+            <label>
+                Текст статьи: <textarea name="article_text" required></textarea>
+            </label>
         </div>
-        <label>
-            <input type="checkbox" name="is_public" {% if article and article ['is_public'] %} checked {% endif %}>
-            Публичная статья
-        </label>
-        <div>
-            <button type="submit">Готово</button>
-        </div>
+
+        <button type="submit">Создать статью</button>
     </form>
 {% endblock %}

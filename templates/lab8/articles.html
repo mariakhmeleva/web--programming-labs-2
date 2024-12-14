@@ -88,7 +88,7 @@
 {% endblock %}
 
 {% block lab %}
-Лабораторная работа 5
+Лабораторная работа 8
 {% endblock %}
 
 {% block main %}
@@ -99,24 +99,24 @@
         {% for article in articles %}
             <div class="article">
                 <h2 class="articletitle">
-                    {{ article['title'] }}
-                    {% if article['is_favorite'] %}
+                    {{ article.title }}
+                    {% if article.is_favorite %}
                         <span class="favorite-badge">Любимое</span>
                     {% endif %}
                 </h2>
-                <p class="article-text">{{ article['article_text'] }}</p>
+                <p class="article-text">{{ article.article_text }}</p>
                 <div class="article-actions">
-                    <form action="/lab5/favorite/{{ article['id'] }}" method="post" style="display:inline;">
+                    <form action="/lab8/favorite/{{ article.id }}" method="post" style="display:inline;">
                         <button type="submit">
-                            {% if article['is_favorite'] %}
+                            {% if article.is_favorite %}
                                 Убрать из любимых
                             {% else %}
                                 Добавить в любимые
                             {% endif %}
                         </button>
                     </form>
-                    <a href="/lab5/edit/{{ article['id'] }}">Редактировать</a>
-                    <form action="/lab5/delete/{{ article['id'] }}" method="post" style="display:inline;">
+                    <a href="/lab8/articles/{{ article.id }}/edit">Редактировать</a>
+                    <form action="/lab8/articles/{{ article.id }}/delete" method="post" style="display:inline;">
                         <button type="submit" onclick="return confirm('Вы уверены, что хотите удалить эту статью?');">
                             Удалить
                         </button>
@@ -125,7 +125,7 @@
             </div>
         {% endfor %}
     {% else %}
-        <p class="empty-message">У вас пока нет ни одной статьи. <a href="/lab5/create">Создать статью</a></p>
+        <p class="empty-message">У вас пока нет ни одной статьи. <a href="/lab8/articles/create">Создать статью</a></p>
     {% endif %}
 </div>
 {% endblock %}

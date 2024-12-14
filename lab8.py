@@ -22,14 +22,16 @@ def register():
 
     login_exists = users.query.filter_by(login = login_form).first()
     if login_exists:
-        return render_template('lab8/register.html',error = 'Такой пользователь уже существует')
+        return render_template('lab8/register.html', error = 'Такой пользователь уже существует')
     
     password_hash = generate_password_hash(password_form)
-    new_user = users(login = login_form,password = password_hash)
+    new_user = users(login = login_form, password = password_hash)
     db.session.add(new_user)
     db.session.commit()
-    return redirect('/lab8/')
 
+    # Автоматический логин после регистрации
+    login_user(new_user, remember=False)
+    return redirect('/lab8/')
 
 @lab8.route('/lab8/login/', methods = ['GET','POST'])
 def login():
@@ -38,23 +40,82 @@ def login():
     
     login_form = request.form.get('login')
     password_form = request.form.get('password')
+    remember = request.form.get('remember') == 'on'
 
     user = users.query.filter_by(login = login_form).first()
 
     if user:
-        if check_password_hash(user.password,password_form):
-            login_user(user,remember=False)
+        if check_password_hash(user.password, password_form):
+            login_user(user, remember=remember)
             return redirect('/lab8/')
     
-    return render_template('/lab8/login.html',error = 'Ошибка входа : логин и/или пароль неверны')
+    return render_template('/lab8/login.html', error = 'Ошибка входа: логин и/или пароль неверны')
 
 @lab8.route('/lab8/articles/')
 @login_required
 def article_list():
-    return 'Список статей'
+    # Получаем статьи текущего пользователя
+    user_articles = articles.query.filter_by(login_id=current_user.id).all()
+    
+    # Передаем статьи в шаблон
+    return render_template('lab8/articles.html', articles=user_articles)
 
 @lab8.route('/lab8/logout')
 @login_required
 def logout():
     logout_user()
     return redirect('/lab8/')
+
+@lab8.route('/lab8/articles/create', methods=['GET', 'POST'])
+@login_required
+def create_article():
+    if request.method == 'GET':
+        return render_template('lab8/create.html')
+    
+    title = request.form.get('title')
+    article_text = request.form.get('article_text')  # Используем правильное имя поля
+
+    # Создаем новую статью
+    new_article = articles(
+        title=title,
+        article_text=article_text,  # Используем правильное имя поля
+        login_id=current_user.id,  # Связываем статью с текущим пользователем через login_id
+        is_favorite=False,  # По умолчанию статья не является избранной
+        likes=0  # По умолчанию количество лайков равно 0
+    )
+
+    db.session.add(new_article)
+    db.session.commit()
+
+    return redirect('/lab8/articles')
+    
+
+@lab8.route('/lab8/articles/<int:article_id>/edit', methods=['GET', 'POST'])
+@login_required
+def edit_article(article_id):
+    article = articles.query.get_or_404(article_id)
+
+    if article.login_id != current_user.id:
+        return "У вас нет прав на редактирование этой статьи", 403
+
+    if request.method == 'GET':
+        return render_template('lab8/edit_article.html', article=article)
+    
+    article.title = request.form.get('title')
+    article.content = request.form.get('content')
+    db.session.commit()
+
+    return redirect('lab8/articles')
+
+@lab8.route('/lab8/articles/<int:article_id>/delete', methods=['POST'])
+@login_required
+def delete_article(article_id):
+    article = articles.query.get_or_404(article_id)
+
+    if article.login_id != current_user.id:
+        return "У вас нет прав на удаление этой статьи", 403
+
+    db.session.delete(article)
+    db.session.commit()
+
+    return redirect('/lab8/articles')
