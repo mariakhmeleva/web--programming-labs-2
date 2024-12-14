@@ -79,7 +79,7 @@ def put_film(id):
         cur.execute('UPDATE films SET title = %s, title_ru = %s, year = %s, description = %s WHERE id = %s',
                     (film['title'], film['title_ru'], film['year'], film['description'], id))
     else:
-            cur.execute('UPDATE films SET title = ?, title_ru = ?, year = ?, description = ? WHERE id = ?',
+        cur.execute('UPDATE films SET title = ?, title_ru = ?, year = ?, description = ? WHERE id = ?',
                     (film['title'], film['title_ru'], film['year'], film['description'], id))
     db_close(conn, cur)
     return jsonify(film)
