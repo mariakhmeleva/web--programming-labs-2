@@ -119,3 +119,30 @@ def delete_article(article_id):
     db.session.commit()
 
     return redirect('/lab8/articles')
+
+
+@lab8.route('/lab8/public_articles/')
+def public_articles():
+    # Получаем все публичные статьи
+    public_articles = articles.query.filter_by(is_public=True).all()
+    
+    # Передаем статьи в шаблон
+    return render_template('lab8/public_articles.html', articles=public_articles)
+
+@lab8.route('/lab8/search/', methods=['GET'])
+def search_articles():
+    query = request.args.get('query')  # Получаем строку поиска из запроса
+
+    # Поиск по статьям текущего пользователя и публичным статьям
+    if current_user.is_authenticated:
+        user_articles = articles.query.filter(
+            (articles.login_id == current_user.id) | (articles.is_public == True)
+        ).filter(
+            (articles.title.contains(query)) | (articles.article_text.contains(query))
+        ).all()
+    else:
+        user_articles = articles.query.filter_by(is_public=True).filter(
+            (articles.title.contains(query)) | (articles.article_text.contains(query))
+        ).all()
+
+    return render_template('lab8/search_results.html', articles=user_articles, query=query)
