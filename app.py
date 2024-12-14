@@ -1,5 +1,7 @@
 from flask import Flask, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+from db.models import users
+from flask_login import LoginManager
 from db import db
 from os import path
 from lab1 import lab1
@@ -14,6 +16,14 @@ import os
 from dotenv import load_dotenv
 
 app = Flask(__name__)
+
+login_manager = LoginManager()
+login_manager.login_view = 'lab8.login'
+login_manager.init_app(app)
+
+@login_manager.user_loader
+def load_users(login_id):
+    return users.query.get(int(login_id))
 
 load_dotenv()
 
