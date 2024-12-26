@@ -20,18 +20,16 @@ def gender():
 
 @lab9.route('/lab9/preference1', methods=['GET', 'POST'])
 def preference1():
-    if request.method == 'POST':
-        session['gender'] = request.form.get('gender')
-        return redirect(url_for('lab9.preference2'))
+    session['gender'] = request.form.get('gender')
     return render_template('lab9/preference1.html')
 
 @lab9.route('/lab9/preference2', methods=['GET', 'POST'])
 def preference2():
-    if request.method == 'POST':
-        session['preference1'] = request.form.get('preference1')
-        preference2 = request.form.get('preference2')
-        session['preference2'] = None
-        return redirect(url_for('lab9.congratulations'))
+    session['preference1'] = request.form.get('preference1')
+    preference2 = request.form.get('preference2')
+    session['preference2'] = None
+    print('1',session)
+   
     return render_template('lab9/preference2.html', preference1=session.get('preference1'))
 
 @lab9.route('/lab9/congratulations', methods=['POST','GET'])
