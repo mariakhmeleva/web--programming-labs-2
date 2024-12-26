@@ -6,7 +6,6 @@ lab9 = Blueprint('lab9', __name__)
 def main():
     if 'name' in session and 'age' in session and 'gender' in session  and 'preference2' in session:
         return redirect(url_for('lab9.congratulations'))
-    print(session)
     return render_template('lab9/index.html')
 
 @lab9.route('/lab9/age', methods=['GET', 'POST'])
@@ -28,30 +27,26 @@ def preference1():
 
 @lab9.route('/lab9/preference2', methods=['GET', 'POST'])
 def preference2():
-    # if 'gender' not in session:  # Проверяем, что gender есть в сессии
-    #     return redirect(url_for('lab9.preference1'))
-    
     if request.method == 'POST':
         session['preference1'] = request.form.get('preference1')
         preference2 = request.form.get('preference2')
-        session['preference2'] = preference2
+        session['preference2'] = None
         return redirect(url_for('lab9.congratulations'))
     return render_template('lab9/preference2.html', preference1=session.get('preference1'))
 
 @lab9.route('/lab9/congratulations', methods=['POST','GET'])
 def congratulations():
-    # Проверяем, есть ли все необходимые данные в сессии
-    
-    # Извлекаем preference2 из формы
-    preference2 = request.form.get('preference2')
-   
-    # Сохраняем preference2 в сессии
-    session['preference2'] = preference2
-    
+    if session.get('preference2') == None:
+        preference2 = request.form.get('preference2')
+        session['preference2'] = preference2
+        print('Выполнил')
+    else:
+        preference2 = session.get('preference2')
     name = session.get('name')
     age = session.get('age')
     gender = session.get('gender')
     preference1 = session.get('preference1')
+    
     
     # Отображаем финальную страницу
     print('КОнц',session)
