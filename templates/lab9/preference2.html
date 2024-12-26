@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 9{% endblock %}
+
+{% block main %}
+    <h1>Выберите вариант:</h1>
+    <form action="{{ url_for('lab9.congratulations') }}" method="POST">
+        {% if session.get('preference1') == 'tasty' %}
+            <label>
+                <input type="radio" name="preference2" value="sweet" required> Сладкое
+            </label><br>
+            <label>
+                <input type="radio" name="preference2" value="hearty" required> Сытное
+            </label><br>
+        {% else %}
+            <label>
+                <input type="radio" name="preference2" value="decorations" required> Котик
+            </label><br>
+            <label>
+                <input type="radio" name="preference2" value="lights" required> Огни
+            </label><br>
+        {% endif %}
+        <input type="submit" value="Далее">
+    </form>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 9{% endblock %}
+
+{% block main %}
+    <h1>Ваш пол?</h1>
+    <form action="{{ url_for('lab9.preference1') }}" method="POST">
+        <label>
+            <input type="radio" name="gender" value="male" required> Мужчина
+        </label><br>
+        <label>
+            <input type="radio" name="gender" value="female" required> Женщина
+        </label><br><br>
+        <input type="submit" value="Далее">
+    </form>
+{% endblock %}

@@ -1,9 +1,12 @@
 {% extends "base.html" %}
 
-{% block lab %} Лабораторная работа 9 {% endblock %}
-
-{% block script %}{% endblock %}
+{% block lab %}Лабораторная работа 9{% endblock %}
 
 {% block main %}
-    <h1>Поздравление</h1>
+    <h1>Введите ваше имя</h1>
+    <form action="{{ url_for('lab9.age') }}" method="POST">
+        <label for="name">Имя:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+        <input type="submit" value="Далее">
+    </form>
 {% endblock %}

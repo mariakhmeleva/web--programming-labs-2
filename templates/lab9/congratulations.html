@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 9{% endblock %}
+
+{% block main %}
+    <h1>Поздравляем!</h1>
+    <div class="text-box">
+    <p>
+        Поздравляю тебя, {{ name }}!
+        {% if gender == 'male' %}
+            Желаю, чтобы ты быстро вырос, был умным и счастливым!
+        {% else %}
+            Желаю, чтобы ты быстро выросла, была умной и счастливой!
+        {% endif %}
+    </p>
+</div>
+<div class="text-box">
+    <p>
+        {% if preference1 == 'tasty' %}
+            {% if preference2 == 'sweet' %}
+                Вот тебе подарок — мешочек конфет!
+                <img src="{{ url_for('static', filename='lab9/candy.jpg') }}" alt="Конфеты">
+            {% else %}
+                Вот тебе подарок — сытный ужин!
+                <img src="{{ url_for('static', filename='lab9/dinner.jpg') }}" alt="Ужин">
+            {% endif %}
+        {% else %}
+            {% if preference2 == 'decorations' %}
+                Вот тебе подарок — котенок!
+                <img src="{{ url_for('static', filename='lab9/cat.jpg') }}" alt="Кот">
+            {% else %}
+                Вот тебе подарок — новогодние огни!
+                <img src="{{ url_for('static', filename='lab9/light.jpg') }}" alt="Огни">
+            {% endif %}
+        {% endif %}
+    </p>
+</div>
+    <style>
+body {
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 50px;
+    background-image: url('/static/lab9/christmas-bg.jpg');
+    background-size: cover;
+}
+
+h1 {
+    color: #d9534f;
+}
+
+form {
+    margin-top: 20px;
+}
+
+input[type="text"], input[type="number"] {
+    padding: 10px;
+    font-size: 16px;
+}
+
+input[type="submit"] {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 20px;
+}
+
+/* Стили для текста с рамкой и белым фоном */
+.text-box {
+    background-color: white; /* Белый фон */
+    padding: 20px; /* Внутренний отступ */
+    border: 2px solid red; /* Красная рамка */
+    border-radius: 10px; /* Закруглённые углы */
+    display: inline-block; /* Чтобы рамка была только вокруг текста */
+    margin: 10px 0; /* Отступ сверху и снизу */
+}
+
+p {
+    color: red;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0; /* Убираем стандартные отступы у <p> */
+}
+</style>
+{% endblock %}

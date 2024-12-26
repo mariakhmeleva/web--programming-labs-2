@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 9{% endblock %}
+
+{% block main %}
+    <h1>Сколько вам лет?</h1>
+    <form action="{{ url_for('lab9.gender') }}" method="POST">
+        <label for="age">Возраст:</label><br>
+        <input type="number" id="age" name="age" required><br><br>
+        <input type="submit" value="Далее">
+    </form>
+{% endblock %}
