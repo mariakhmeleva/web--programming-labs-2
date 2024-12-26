@@ -25,16 +25,21 @@
                 <img src="{{ url_for('static', filename='lab9/dinner.jpg') }}" alt="Ужин">
             {% endif %}
         {% else %}
-            {% if preference2 == 'decorations' %}
-                Вот тебе подарок — котенок!
-                <img src="{{ url_for('static', filename='lab9/cat.jpg') }}" alt="Кот">
-            {% else %}
+            {% if preference2 == 'lights' %}
                 Вот тебе подарок — новогодние огни!
                 <img src="{{ url_for('static', filename='lab9/light.jpg') }}" alt="Огни">
+               
+            {% else %}
+            Вот тебе подарок — котенок!
+            <img src="{{ url_for('static', filename='lab9/cat.jpg') }}" alt="Кот">
             {% endif %}
         {% endif %}
     </p>
 </div>
+<form action="{{ url_for('lab9.reset') }}" method="post">
+    <button type="submit">Сбросить данные</button>
+</form>
+
     <style>
 body {
     background-color: #f0f0f0;
